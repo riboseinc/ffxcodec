@@ -29,4 +29,12 @@ class TestFFXCodec < Minitest::Test
     assert_equal [4294967295, 4294967295], encoder(32, 32).maximums
     assert_equal [1125899906842623, 16383], encoder(50, 14).maximums
   end
+
+  def test_stops_using_encryption_after_disabling
+    enc = encoder(40, 24)
+    enc.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "9876543210")
+    enc.disable_encryption
+    assert_equal 20712612157194244, encoder(40, 24).encode(1234567890, 4)
+    assert_equal [1234567890, 4], encoder(40, 24).decode(20712612157194244)    
+  end
 end

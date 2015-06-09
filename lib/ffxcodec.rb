@@ -25,6 +25,10 @@ class FFXCodec
     @crypto = Encrypt.new(key, tweak, @encoder.size, 2)
   end
 
+  def disable_encryption
+    @crypto = false
+  end
+
   def encode(a, b)
     c = @encoder.encode(a, b)
     @crypto ? encrypt(c) : c
