@@ -1,8 +1,6 @@
-require "openssl"
-
 require "ffxcodec/version"
 require "ffxcodec/core_ext/string"
-require "ffxcodec/aecffx"
+require "ffxcodec/encrypt"
 require "ffxcodec/encoder"
 
 class FFXCodec

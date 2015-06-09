@@ -1,3 +1,5 @@
+require "openssl"
+
 class FFXCodec
   # Implementation of AES-FFX mode format-preserving encryption
   #
