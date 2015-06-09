@@ -1,11 +1,32 @@
 require 'minitest_helper'
 
 class TestFFXCodec < Minitest::Test
-  def test_that_it_has_a_version_number
-    refute_nil ::FFXCodec::VERSION
+  def encoder(lhs, rhs)
+    FFXCodec.new(lhs, rhs)
   end
 
-  def test_it_does_something_useful
-    assert false
+  def test_correct_encode_results
+    assert_equal 20712612157194244, encoder(40, 24).encode(1234567890, 4)
+  end
+
+  def test_correct_decode_results
+    assert_equal [1234567890, 4], encoder(40, 24).decode(20712612157194244)
+  end
+
+  def test_uses_encryption_when_setup
+    enc = encoder(40, 24)
+    enc.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "9876543210")
+    assert_equal 354718250089538754, enc.encode(797980150281, 5427652)
+    assert_equal [797980150281, 5427652], enc.decode(354718250089538754)
+  end
+
+  def test_correct_32_maximums
+    assert_equal [16777215, 255], encoder(24, 8).maximums
+    assert_equal [65535, 65535], encoder(16, 16).maximums
+  end
+
+  def test_correct_64_maximums
+    assert_equal [4294967295, 4294967295], encoder(32, 32).maximums
+    assert_equal [1125899906842623, 16383], encoder(50, 14).maximums
   end
 end
