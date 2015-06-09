@@ -44,6 +44,8 @@ class FFXCodec
     [@encoder.a_max, @encoder.b_max]
   end
 
+  private
+
   def encrypt(value)
     @crypto.encrypt(value.to_s(2)).to_i(2)
   end
