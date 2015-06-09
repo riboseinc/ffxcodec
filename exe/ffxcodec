@@ -1,21 +1,94 @@
 #!/usr/bin/env ruby
 
+require "optparse"
 require "ffxcodec"
 
-# ffx = FFXCodec.new(40, 24)
-# ffx.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "FZNT4F22E5QA5QUM")
-#
-# userid = 1234567890
-# listid = 4568915
-#
-# encoded = ffx.encode(userid, listid)
-# decoded = ffx.decode(encoded)
-#
-# puts "RESULTS..."
-# puts "User ID: #{userid}"
-# puts "List ID: #{listid}"
-# puts "LHS Max: #{ffx.maximums[0]}"
-# puts "RHS Max: #{ffx.maximums[1]}"
-# puts "Encoded: #{encoded}"
-# puts "Initial: [#{userid}, #{listid}]"
-# puts "Decoded: #{decoded.inspect}"
+examples = <<-EOF
+Examples:
+
+- Encode:
+  ffxcodec --alloc=40:24 1234567890 4
+
+- Decode:
+  ffxcodec --alloc=40:24 20712612157194244
+
+- Encrypted encode:
+  ffxcodec --alloc=40:24 --key=2b7e151628aed2a6abf7158809cf4f3c --tweak=FZNT4F22E5QA5QUM 1234567890 4
+
+- Encrypted decode:
+  ffxcodec --alloc=40:24 --key=2b7e151628aed2a6abf7158809cf4f3c --tweak=FZNT4F22E5QA5QUM 5539580373534012574
+EOF
+
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: ffxcodec [options] [args]"
+
+  opts.on("-aLEFT:RIGHT", "--alloc LEFT:RIGHT", "Bit allocation - must add up to 32/64 (REQUIRED)") do |b|
+    left, right = b.split(":").map(&:to_i)
+    options[:l_alloc] = left
+    options[:r_alloc] = right
+  end
+
+  opts.on("-kKEY", "--key KEY", "Hex key to encrypt with (use with --tweak)") do |k|
+    options[:key] = k
+  end
+
+  opts.on("-tTWEAK", "--tweak TWEAK", "Tweak to encrypt with (use with --key)") do |t|
+    options[:tweak] = t
+  end
+
+  opts.on("-m", "--maximums", "Show max integers for the given allocation and exit") do |m|
+    options[:maximum] = true
+  end
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    puts ""
+    puts examples
+    exit
+  end
+end.parse!
+
+
+if options[:l_alloc].nil? || options[:r_alloc].nil?
+  warn "Must provide left and right bit allocation like: --alloc=40:24"
+  exit 2
+end
+
+
+ffx = FFXCodec.new(options[:l_alloc], options[:r_alloc])
+
+
+if options[:maximum]
+  l_max, r_max = ffx.maximums
+  puts "Left max: #{l_max}"
+  puts "Right max: #{r_max}"
+  exit
+end
+
+
+if options[:key] || options[:tweak]
+  if [options[:key], options[:tweak]].any?(&:nil?)
+    warn "Must use --key with --tweak to enable encryption"
+    exit 2
+  end
+  ffx.setup_encryption(options[:key], options[:tweak])
+end
+
+
+case ARGV.count
+when 1
+  encoded = ARGV[0].to_i
+  userid, listid = ffx.decode(encoded)
+  puts "User ID: #{userid}"
+  puts "List ID: #{listid}"
+when 2
+  userid = ARGV[0].to_i
+  listid = ARGV[1].to_i
+  encoded = ffx.encode(userid, listid)
+  puts "Encoded: #{encoded}"
+else
+  warn "Wrong number of values provided to encode or decode."
+  exit 2
+end
