@@ -15,7 +15,10 @@ Optionally, you can then enable encryption by setting a `key` and `tweak`:
 
     ffx.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "8675309")
 
-Then, encode and decode accordingly.
+Then, encode and decode accordingly:
+
+    ffx.encode(7183940, 99)          #=> 120526513111139
+    ffx.decode(5084490834151041050)  #=> [7183940, 99]
 
 ### Putting it all together
 
