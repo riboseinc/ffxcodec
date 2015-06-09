@@ -1,5 +1,4 @@
 require 'minitest_helper'
-require "ffxcodec/encrypt"
 
 # From: http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/ffx/aes-ffx-vectors.txt
 
