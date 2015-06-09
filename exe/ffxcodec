@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require "ffxcodec"
+
+# ffx = FFXCodec.new(40, 24)
+# ffx.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "FZNT4F22E5QA5QUM")
+#
+# userid = 1234567890
+# listid = 4568915
+#
+# encoded = ffx.encode(userid, listid)
+# decoded = ffx.decode(encoded)
+#
+# puts "RESULTS..."
+# puts "User ID: #{userid}"
+# puts "List ID: #{listid}"
+# puts "LHS Max: #{ffx.maximums[0]}"
+# puts "RHS Max: #{ffx.maximums[1]}"
+# puts "Encoded: #{encoded}"
+# puts "Initial: [#{userid}, #{listid}]"
+# puts "Decoded: #{decoded.inspect}"
