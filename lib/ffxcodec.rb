@@ -22,19 +22,29 @@ class FFXCodec
   end
 
   def setup_encryption(key, tweak)
-    @encoder.crypto = Encrypt.new(key, tweak, @encoder.size, 2)
+    @crypto = Encrypt.new(key, tweak, @encoder.size, 2)
   end
 
   def encode(a, b)
-    @encoder.encode(a, b)
+    c = @encoder.encode(a, b)
+    @crypto ? encrypt(c) : c
   end
 
   def decode(c)
-    @encoder.decode(c)
+    input = @crypto ? decrypt(c) : c
+    @encoder.decode(input)
   end
 
   # Show maximum representable base 10 value for each field
   def maximums
     [@encoder.a_max, @encoder.b_max]
+  end
+
+  def encrypt(value)
+    @crypto.encrypt(value.to_s(2)).to_i(2)
+  end
+
+  def decrypt(value)
+    @crypto.decrypt(value.to_s(2)).to_i(2)
   end
 end

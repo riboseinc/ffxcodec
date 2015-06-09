@@ -109,10 +109,4 @@ class TestEncoder < Minitest::Test
       encoder(17, 16)
     end
   end
-
-  def test_automatically_uses_encryption_when_crypto_set
-    enc = encoder(40, 24)
-    enc.crypto = FFXCodec::Encrypt.new("2b7e151628aed2a6abf7158809cf4f3c", "8675309", enc.size, 2)
-    assert_equal 7924385121804233846, enc.encode(1099511627775, 16777215)
-  end
 end
