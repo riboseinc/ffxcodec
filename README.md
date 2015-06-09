@@ -39,3 +39,7 @@ Add this line to your application's Gemfile:
 ```ruby
 gem 'ffxcodec'
 ```
+
+## Warning
+
+The AES-FFX implementation was cooked up for this proof of concept. It shouldn't be considered secure.
