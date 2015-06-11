@@ -1,5 +1,6 @@
 class String
-  def ^(other)  # xor
+  # XOR operation on String
+  def ^(other)
     b1 = self.unpack("C*")
     b2 = other.unpack("C*")
     raise "Strings must be the same length" unless b1.size == b2.size
@@ -9,12 +10,14 @@ class String
     b1.zip(b2).map { |a, b| a ^ b }.pack("C*")
   end
 
+  # Split down the middle into two parts (right-biased)
   def bisect
     n = self.size
     l = n / 2
     [self[0...l], self[l...n]]
   end
 
+  # Prepend zeroes until string is of the given length
   def zero_pad(length)
     str = self
     str.insert(0, '0') while str.length < length

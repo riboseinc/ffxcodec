@@ -11,31 +11,33 @@ class FFXCodec
   #
   # Example:
   #
-  #     e = Encrypt.new("4fb450a9c27dd07f22ef56413432c94a", "FZNT4F22E5QA5QUM")
-  #     e.encrypt(1234567890)  #=> "1224011974"
-  #     e.decrypt(1224011974)  #=> "1234567890"
+  #   e = Encrypt.new("4fb450a9c27dd07f22ef56413432c94a", "FZNT4F22E5QA5QUM")
+  #   e.encrypt(1234567890)  #=> "1224011974"
+  #   e.decrypt(1224011974)  #=> "1234567890"
   #
   #
   # Format-preserving != integer-size-preserving in base 10
   # -------------------------------------------------------
   #
-  # The format-preserving characteristic of this cipher should be thought of as
-  # preserving the number of digits, not the integer size.  For instance, in base
-  # 10, 4294967295 and 4294967296 would be considered to have the same format,
-  # but the first is a 32-bit integer and the second is 64-bit.
+  # The format-preserving characteristic of this cipher is best thought of as
+  # preserving the number of digits, not the integer size.  For instance, in
+  # base 10, 4294967295 and 4294967296 would be considered to have the same
+  # format, but the first is a 32-bit unsigned integer and the second is 64.
   #
-  # So given base 10 input that fits within a 32 or 64-bit integer, it's possible
-  # for the AES-FFX cipher to return a number that contains the same number of
-  # base 10 digits but exceeds the largest number that can be represented in 32
-  # or 64 bits respectively.
+  # So given base 10 input that fits within a 32 or 64-bit integer, it's
+  # possible for the AES-FFX cipher to return a number that contains the same
+  # number of base 10 digits but exceeds the largest number that can be
+  # represented in 32 or 64 bits respectively.
   #
-  # You can work around this by using radix 2 so that the cipher returns an equal
-  # number of bits.  As with all modes other than base 10, you must supply input
-  # in the base that the cipher will be operating in as a string.
+  # You can work around this by using radix 2 so that the cipher returns an
+  # equal number of bits.  As with all modes, you must supply input as a
+  # stringified integer in the base you've specified.
   #
-  # Keep in mind: When you convert between bases, leading zeros are sometimes
-  # dropped.  You must supply the same number of digits to the decrypter as you
-  # did to the encrypter or you'll get a different value.
+  # Be aware that when you convert between bases, leading zeros are sometimes
+  # dropped by the converter.  You must supply the same number of digits to the
+  # decrypter as you did to the encrypter or you'll get a different value.  The
+  # encrypt and decrypt methods prepend zeros until the input is is of the
+  # length specified during initialization.
   #
   class Encrypt
     attr_accessor :radix, :rounds, :length
@@ -78,6 +80,7 @@ class FFXCodec
 
     private
 
+    # Prepend zeroes to `block` to make it `n` size
     def block_prepend(n, block)
       return block unless block.size < n
       ('0' * (n - block.size)) + block

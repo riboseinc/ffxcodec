@@ -1,16 +1,16 @@
 class FFXCodec
   # Example (with encryption):
   #
-  #     i = Encoder.new(40, 24)
-  #     i.crypto = Encrypt.new("4fb450a9c27dd07f22ef56413432c94a", "FZNT4F22E5QA5QUM")
-  #     i.encode(1234567890, 4)      #=> 35031505128447977
-  #     i.decode(35031505128447977)  #=> [1234567890, 4]
+  #   i = Encoder.new(40, 24)
+  #   i.crypto = Encrypt.new("4fb450a9c27dd07f22ef56413432c94a", "FZNT4F22E5QA5QUM")
+  #   i.encode(1234567890, 4)      #=> 35031505128447977
+  #   i.decode(35031505128447977)  #=> [1234567890, 4]
   #
   # Example (without encryption):
   #
-  #     i = Encoder.new(40, 24)
-  #     i.encode(1234567890, 4)      #=> 20712612157194244
-  #     i.decode(20712612157194244)  #=> [1234567890, 4]
+  #   i = Encoder.new(40, 24)
+  #   i.encode(1234567890, 4)      #=> 20712612157194244
+  #   i.decode(20712612157194244)  #=> [1234567890, 4]
   #
   class Encoder
     attr_reader :size, :a_max, :b_max
@@ -39,17 +39,20 @@ class FFXCodec
 
     private
 
+    # Calculate the maximum values representable in the given number of bits
     def maximums(a_size, b_size)
       a_max = ('1' * a_size).to_i(2)
       b_max = ('1' * b_size).to_i(2)
       [a_max, b_max]
     end
 
+    # Raise an error if the given values fall outside our maximums
     def check_ab_bounds(a, b)
       raise ArgumentError, "LHS #{@a_size}-bit value out of bounds: #{a}" if a > @a_max || a < 0
       raise ArgumentError, "RHS #{@b_size}-bit value out of bounds: #{b}" if b > @b_max || b < 0
     end
 
+    # Rase an error if the combined size isn't 32 or 64 bits
     def check_size
       if @size != 32 && @size != 64
         raise ArgumentError, "Combined size must be 32 or 64 bits"
