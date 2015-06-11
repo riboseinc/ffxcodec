@@ -35,6 +35,6 @@ class TestFFXCodec < Minitest::Test
     enc.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "9876543210")
     enc.disable_encryption
     assert_equal 20712612157194244, encoder(40, 24).encode(1234567890, 4)
-    assert_equal [1234567890, 4], encoder(40, 24).decode(20712612157194244)    
+    assert_equal [1234567890, 4], encoder(40, 24).decode(20712612157194244)
   end
 end

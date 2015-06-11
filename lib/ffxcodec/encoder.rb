@@ -49,18 +49,16 @@ class FFXCodec
     # Raise an error if the given values fall outside our maximums
     def check_ab_bounds(a, b)
       if a > @a_max || a < 0
-        raise ArgumentError, "LHS #{@a_size}-bit value out of bounds: #{a}"
-      end
-      if b > @b_max || b < 0
-        raise ArgumentError, "RHS #{@b_size}-bit value out of bounds: #{b}"
+        fail ArgumentError, "LHS #{@a_size}-bit value out of bounds: #{a}"
+      elsif b > @b_max || b < 0
+        fail ArgumentError, "RHS #{@b_size}-bit value out of bounds: #{b}"
       end
     end
 
     # Rase an error if the combined size isn't 32 or 64 bits
     def check_size
-      if @size != 32 && @size != 64
-        raise ArgumentError, "Combined size must be 32 or 64 bits"
-      end
+      return if @size == 32 || @size == 64
+      fail ArgumentError, "Combined size must be 32 or 64 bits"
     end
   end
 end

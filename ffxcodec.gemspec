@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["J. Brandt Buckley"]
   spec.email         = ["brandt@runlevel1.com"]
 
-  spec.summary       = %q{Encodes two integers into one with optional encryption}
-  spec.description   = %q{Encodes two unsigned integers into a single, larger (32 or 64-bit) integer with optional AES-FFX encryption.}
+  spec.summary       = 'Encodes two integers into one with optional encryption'
+  spec.description   = 'Encodes two unsigned integers into a single, larger (32 or 64-bit) integer with optional AES-FFX encryption.'
 # spec.homepage      = "TODO: Put your gem's website or public repo URL here."
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }

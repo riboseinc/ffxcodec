@@ -3,7 +3,7 @@ class String
   def ^(other)
     b1 = self.unpack("C*")
     b2 = other.unpack("C*")
-    raise "Strings must be the same length" unless b1.size == b2.size
+    raise ArgumentError, "Strings must be the same length" unless b1.size == b2.size
     longest = [b1.length, b2.length].max
     b1 = [0] * (longest - b1.length) + b1
     b2 = [0] * (longest - b2.length) + b2

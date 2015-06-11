@@ -89,16 +89,14 @@ class FFXCodec
     # Cmputes the block-wise radix addition of x and y
     def block_addition(a, b)
       sum = a.to_i(@radix) + b.to_i(@radix)
-      sum %= (@radix ** a.size)
+      sum %= (@radix**a.size)
       block_prepend(a.size, sum.to_s(@radix))
     end
 
     # Computes the block-wise radix subtraction of x and y
     def block_subtraction(n, x, y)
-      x_int       = x.to_i(@radix)
-      y_int       = y.to_i(@radix)
-      diff        = x_int - y_int
-      mod         = @radix ** n
+      diff        = x.to_i(@radix) - y.to_i(@radix)
+      mod         = @radix**n
       block_diff  = diff % mod
       block_diff += mod if block_diff < 0
       out         = block_diff.to_s(@radix)
@@ -121,7 +119,7 @@ class FFXCodec
     end
 
     def cbc_mac(block)
-      raise "invalid block size" unless (block.size % 16 == 0)
+      fail "invalid block size" unless (block.size % 16 == 0)
       y = "\0" * 16
       i = 0
       while i < block.size
@@ -158,7 +156,7 @@ class FFXCodec
     #
     # Concatenated with P in the feistel round.
     #
-    # q <- tweak | [0]^((−t−b−1) mod 16) | [roundNum] | [numradix(B)]
+    # q <- tweak | [0]^((-t-b-1) mod 16) | [roundNum] | [numradix(B)]
     def generate_q(b, blk_len, round)
       round_num = [round].pack('C')
       @tweak + "\0" * ((-@tweak.size - blk_len - 1) % 16) + round_num + num_radix(b, blk_len)
@@ -186,7 +184,7 @@ class FFXCodec
       # z = y mod r^m
       y = generate_y(blk_len, iv_p, iv_q)
       m = (iter % 2).zero? ? (input_len / 2) : (input_len / 2.0).ceil
-      z = y % (@radix ** m)
+      z = y % (@radix**m)
 
       block_prepend(m, z.to_s(@radix))
     end

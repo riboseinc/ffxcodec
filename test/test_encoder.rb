@@ -82,22 +82,22 @@ class TestEncoder < Minitest::Test
   end
 
   def test_correct_decoded_result_at_32_maximums
-    assert_equal [65535, 65535 ], encoder(16, 16).decode(4294967295)
+    assert_equal [65535, 65535], encoder(16, 16).decode(4294967295)
     assert_equal [255, 16777215], encoder(8, 24).decode(4294967295)
     assert_equal [16777215, 255], encoder(24, 8).decode(4294967295)
   end
 
   def test_raises_argumenterror_when_lhs_input_too_big
-    lhs = ('1' *  41).to_i(2)
+    lhs = ('1' * 41).to_i(2)
     assert_raises ArgumentError do
       encoder(40, 24).encode(lhs, 4)
     end
   end
 
   def test_raises_argumenterror_when_rhs_input_too_big
-    rhs = ('1' *  25).to_i(2)
+    rhs = ('1' * 25).to_i(2)
     assert_raises ArgumentError do
-      encoder(40, 24).encode(4, rhs) 
+      encoder(40, 24).encode(4, rhs)
     end
   end
 

@@ -19,7 +19,6 @@ Examples:
   ffxcodec --alloc=40:24 --key=2b7e151628aed2a6abf7158809cf4f3c --tweak=FZNT4F22E5QA5QUM 5539580373534012574
 EOF
 
-
 options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: ffxcodec [options] [args]"
@@ -38,7 +37,7 @@ OptionParser.new do |opts|
     options[:tweak] = t
   end
 
-  opts.on("-m", "--maximums", "Show max integers for the given allocation and exit") do |m|
+  opts.on("-m", "--maximums", "Show max integers for the given allocation and exit") do
     options[:maximum] = true
   end
 
@@ -50,15 +49,12 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-
 if options[:l_alloc].nil? || options[:r_alloc].nil?
   warn "Must provide left and right bit allocation like: --alloc=40:24"
   exit 2
 end
 
-
 ffx = FFXCodec.new(options[:l_alloc], options[:r_alloc])
-
 
 if options[:maximum]
   l_max, r_max = ffx.maximums
@@ -67,7 +63,6 @@ if options[:maximum]
   exit
 end
 
-
 if options[:key] || options[:tweak]
   if [options[:key], options[:tweak]].any?(&:nil?)
     warn "Must use --key with --tweak to enable encryption"
@@ -75,7 +70,6 @@ if options[:key] || options[:tweak]
   end
   ffx.setup_encryption(options[:key], options[:tweak])
 end
-
 
 case ARGV.count
 when 1
