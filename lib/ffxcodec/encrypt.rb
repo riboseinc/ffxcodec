@@ -41,7 +41,7 @@ class FFXCodec
   #
   class Encrypt
     attr_accessor :radix, :rounds, :length
-    attr_writer :key, :tweak
+    attr_writer :tweak
 
     def initialize(key, tweak, length, radix = 10)
       @key    = [key].pack('H*')
