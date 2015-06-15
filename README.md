@@ -51,7 +51,7 @@ gem 'ffxcodec'
 
 ## FAQ
 
-Q. Does this only work with unsigned integers?
+Q. Does this only work with unsigned integers?  
 A. It could be made to work with signed integers, but it wasn't built or tested with that use case in mind.
 
 
