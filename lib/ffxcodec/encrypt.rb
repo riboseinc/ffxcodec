@@ -58,11 +58,12 @@ class FFXCodec
     end
 
     # @param [String] key for AES as a hexadecimal string
-    def key=(k)
-      @key = [k].pack('H*')
+    def key=(key)
+      @key = [key].pack('H*')
     end
 
     # Encrypt
+    #
     # @param [String] input unencrypted, stringifed integer of base @radix
     #
     # @example Encrypt
