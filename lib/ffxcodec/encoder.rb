@@ -57,8 +57,8 @@ class FFXCodec
     # @param [Fixnum] b_size number of bits allocated to right integer
     # @return [Array<Fixnum>] maximum representable values for each integer
     def maximums(a_size, b_size)
-      a_max = ('1' * a_size).to_i(2)
-      b_max = ('1' * b_size).to_i(2)
+      a_max = (1 << a_size) - 1
+      b_max = (1 << b_size) - 1
       [a_max, b_max]
     end
 
