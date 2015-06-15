@@ -9,8 +9,8 @@ Optionally, it can encrypt/decrypt the resulting integer using a home-built impl
 
 Start by divvying up the 32 or 64 bits that will make up the resulting integer:
 
-    ffx = FFXCodec.new(32, 32)  # divide 64-bit int equally
-    ffx = FFXCodec.new(8, 24)   # divide 32-bit int 8 bits left, 24-bits right
+    ffx = FFXCodec.new(16, 16)  # divide 32-bit int equally
+    ffx = FFXCodec.new(40, 24)  # divide 64-bit int into a 40 and 24-bit int
 
 Then, encode and decode accordingly:
 
@@ -51,7 +51,7 @@ gem 'ffxcodec'
 
 ## FAQ
 
-Q. Does this only work with unsigned integers?  
+Q. Does this only work with unsigned integers?
 A. It could be made to work with signed integers, but it wasn't built or tested with that use case in mind.
 
 
