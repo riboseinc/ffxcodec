@@ -32,34 +32,46 @@ class FFXCodec
   # length specified during initialization.
   #
   class Encrypt
-    # @param [Fixnum] radix of the input
-    attr_accessor :radix
-
-    # @param [Fixnum] number of rounds of encryption / decryption to run input
-    #   through (don't change unless you know what you're doing)
-    attr_accessor :rounds
-
     # @param [Fixnum] length of input
     attr_accessor :length
 
-    # @param [String] tweak for AES
-    attr_writer :tweak
+    # @note This is set to 10 by the spec.  Don't change it unless you know
+    #   what you're doing.
+    # @param [Fixnum] rounds of encryption / decryption to run input through
+    attr_accessor :rounds
+
+    # @return [Fixnum] radix of the input
+    attr_reader :radix
 
     # @param [String] key for AES as a hexadecimal string
     # @param [String] tweak for AES
     # @param [Fixnum] length of the input
     # @param [Fixnum] radix of the input
     def initialize(key, tweak, length, radix = 10)
-      @key    = [key].pack('H*')
-      @tweak  = tweak
-      @radix  = radix
-      @length = length
-      @rounds = 10
+      self.key   = key
+      self.tweak = tweak
+      self.radix = radix
+      @length    = length
+      @rounds    = 10
     end
 
     # @param [String] key for AES as a hexadecimal string
     def key=(key)
-      @key = [key].pack('H*')
+      hexkey = [key].pack('H*')
+      fail ArgumentError, "key must be a 16-byte hexidecimal" if hexkey.length != 16
+      @key = hexkey
+    end
+
+    # @param [String] tweak tweak for AES
+    def tweak=(tweak)
+      fail ArgumentError, "tweak length must be under (2^32) - 1" if tweak.length > ((1 << 32) - 1)
+      @tweak = tweak
+    end
+
+    # @param [Fixnum] num radix of the input
+    def radix=(num)
+      fail ArgumentError, "radix must be between 2 and 2^16" if num > 65536
+      @radix = num
     end
 
     # Encrypt

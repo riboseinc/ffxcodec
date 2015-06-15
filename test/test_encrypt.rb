@@ -37,4 +37,21 @@ class TestEncrypt < Minitest::Test
   end
 
 
+  def test_raises_argumenterror_when_key_too_small
+    assert_raises ArgumentError do
+      @ec.key = "2b7e151628aed2a6abf7158809cf4f"
+    end
+  end
+
+  def test_raises_argumenterror_when_key_big
+    assert_raises ArgumentError do
+      @ec.key = "22b7e151628aed2a6abf7158809cf4f3ce"
+    end
+  end
+
+  def test_raises_argumenterror_when_radix_too_big
+    assert_raises ArgumentError do
+      @ec.radix = 65537
+    end
+  end
 end
