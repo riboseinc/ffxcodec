@@ -119,7 +119,7 @@ class FFXCodec
       block_diff += mod if block_diff < 0
       out         = block_diff.to_s(@radix)
       return out unless out.length < n
-      "0" * (n - out.length) + out
+      out.zero_pad(n)
     end
 
     def num_radix(str, length)
