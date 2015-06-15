@@ -54,7 +54,14 @@ gem 'ffxcodec'
 ## FAQ
 
 Q. Does this only work with unsigned integers?
+
 A. It could be made to work with signed integers, but it wasn't built or tested with that use case in mind.
+
+
+Q. What is a tweak?
+
+A. It's kind of like a salt. The [initial FFX spec][1] has a good description.
+
 
 
 ## Warning
@@ -63,3 +70,6 @@ The AES-FFX implementation is experimental.  It was cooked up for this proof of 
 The tests included are based on the NIST reference, but only a handful have been implemented.
 Additionally, FFX is still a DRAFT specification.  Thus, it cannot yet be considered cryptographically secure.
 Don't use this for anything beyond basic obfuscation.
+
+
+[1]: http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/ffx/ffx-spec.pdf
