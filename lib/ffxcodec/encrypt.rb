@@ -104,17 +104,11 @@ class FFXCodec
 
     private
 
-    # Prepend zeroes to `block` to make it `n` size
-    def block_prepend(n, block)
-      return block unless block.size < n
-      ('0' * (n - block.size)) + block
-    end
-
     # Computes the block-wise radix addition of x and y
     def block_addition(a, b)
       sum = a.to_i(@radix) + b.to_i(@radix)
       sum %= (@radix**a.size)
-      block_prepend(a.size, sum.to_s(@radix))
+      sum.to_s(@radix).zero_pad(a.size)
     end
 
     # Computes the block-wise radix subtraction of x and y
@@ -210,7 +204,7 @@ class FFXCodec
       m = (iter % 2).zero? ? (input_len / 2) : (input_len / 2.0).ceil
       z = y % (@radix**m)
 
-      block_prepend(m, z.to_s(@radix))
+      z.to_s(@radix).zero_pad(m)
     end
   end
 end
