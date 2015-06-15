@@ -4,6 +4,8 @@ Encodes two unsigned integers into a single, larger (32 or 64-bit) integer.
 
 Optionally, it can encrypt/decrypt the resulting integer using a home-built implementation of the AES-FFX format-preserving cipher.
 
+Has no external dependencies.  Everything is done with the stdlib.
+
 
 ## Usage
 
