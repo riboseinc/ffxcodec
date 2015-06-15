@@ -1,5 +1,9 @@
 class String
   # XOR operation on String
+  #
+  # @param [String] other string to XOR with
+  # @raises [ArgumentError] if other string isn't the same length
+  # @return [String] result of XOR operation
   def ^(other)
     b1 = self.unpack("C*")
     b2 = other.unpack("C*")
@@ -11,6 +15,9 @@ class String
   end
 
   # Split down the middle into two parts (right-biased)
+  #
+  # @return [Array<String>] the original string split into two. If length was
+  #   odd, then the second string will have an extra character.
   def bisect
     n = self.size
     l = n / 2
@@ -18,6 +25,11 @@ class String
   end
 
   # Prepend zeroes until string is of the given length
+  #
+  # @note if string was already longer than the given length, no action taken
+  #
+  # @param [Integer] length we want the resulting string to be
+  # @return [String] prepended with '0's until the given length is reached
   def zero_pad(length)
     str = self
     str.insert(0, '0') while str.length < length

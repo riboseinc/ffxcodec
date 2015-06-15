@@ -4,20 +4,12 @@ class FFXCodec
   # Implementation of AES-FFX mode format-preserving encryption
   #
   # Cipher device encrypts integers where the resulting ciphertext has the same
-  # number of digits in the givin base (radix).
+  # number of digits in the given base (radix).
   #
-  # WARNING: This was cooked up as a proof of concept.  It hasn't been tested
-  # thoroughly and shouldn't be considered secure.
+  # @note WARNING: This was cooked up as an experimental proof of concept.
+  #   It hasn't been tested thoroughly and shouldn't be considered secure.
   #
-  # Example:
-  #
-  #   e = Encrypt.new("4fb450a9c27dd07f22ef56413432c94a", "FZNT4F22E5QA5QUM")
-  #   e.encrypt(1234567890)  #=> "1224011974"
-  #   e.decrypt(1224011974)  #=> "1234567890"
-  #
-  #
-  # Format-preserving != integer-size-preserving in base 10
-  # -------------------------------------------------------
+  # @note Format-preserving != integer-size-preserving in base 10 (see below)
   #
   # The format-preserving characteristic of this cipher is best thought of as
   # preserving the number of digits, not the integer size.  For instance, in
@@ -40,9 +32,23 @@ class FFXCodec
   # length specified during initialization.
   #
   class Encrypt
-    attr_accessor :radix, :rounds, :length
+    # @param [Fixnum] radix of the input
+    attr_accessor :radix
+
+    # @param [Fixnum] number of rounds of encryption / decryption to run input
+    #   through (don't change unless you know what you're doing)
+    attr_accessor :rounds
+
+    # @param [Fixnum] length of input
+    attr_accessor :length
+
+    # @param [String] tweak for AES
     attr_writer :tweak
 
+    # @param [String] key for AES as a hexadecimal string
+    # @param [String] tweak for AES
+    # @param [Fixnum] length of the input
+    # @param [Fixnum] radix of the input
     def initialize(key, tweak, length, radix = 10)
       @key    = [key].pack('H*')
       @tweak  = tweak
@@ -51,14 +57,23 @@ class FFXCodec
       @rounds = 10
     end
 
+    # @param [String] key for AES as a hexadecimal string
     def key=(k)
       @key = [k].pack('H*')
     end
 
-    def encrypt(str)
-      a, b = str.zero_pad(@length).bisect
+    # Encrypt
+    # @param [String] input unencrypted, stringifed integer of base @radix
+    #
+    # @example Encrypt
+    #   e = Encrypt.new("4fb450a9c27dd07f22ef56413432c94a", "FZNT4F22E5QA5QUM")
+    #   e.encrypt(1234567890)  #=> "1224011974"
+    #
+    # @return [Fixnum, Bignum] encrypted integer
+    def encrypt(input)
+      a, b = input.zero_pad(@length).bisect
       0.upto(@rounds - 1) do |iter|
-        f = feistel_round(str.size, iter, b)
+        f = feistel_round(input.size, iter, b)
         c = block_addition(a, f)
         a = b
         b = c
@@ -66,12 +81,21 @@ class FFXCodec
       a + b
     end
 
-    def decrypt(str)
-      a, b = str.zero_pad(@length).bisect
+    # Decrypt
+    #
+    # @param [String] input encrypted, stringifed integer of base @radix
+    #
+    # @example Decrypt
+    #   e = Encrypt.new("4fb450a9c27dd07f22ef56413432c94a", "FZNT4F22E5QA5QUM")
+    #   e.decrypt(1224011974)  #=> "1234567890"
+    #
+    # @return [Fixnum, Bignum] unencrypted integer
+    def decrypt(input)
+      a, b = input.zero_pad(@length).bisect
       (@rounds - 1).downto(0) do |iter|
         c = b
         b = a
-        f = feistel_round(str.size, iter, b)
+        f = feistel_round(input.size, iter, b)
         lmin  = [c.size, f.size].min
         a = block_subtraction(lmin, c, f)
       end
@@ -86,7 +110,7 @@ class FFXCodec
       ('0' * (n - block.size)) + block
     end
 
-    # Cmputes the block-wise radix addition of x and y
+    # Computes the block-wise radix addition of x and y
     def block_addition(a, b)
       sum = a.to_i(@radix) + b.to_i(@radix)
       sum %= (@radix**a.size)
