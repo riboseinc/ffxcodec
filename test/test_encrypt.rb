@@ -29,4 +29,12 @@ class TestEncrypt < Minitest::Test
     @ec.length = 9
     assert_equal("658229573", @ec.encrypt("999999999"))
   end
+
+  def test_nist_vector5
+    @ec.radix = 36
+    @ec.tweak = "TQF9J5QDAGSCSPB1"
+    assert_equal("C8AQ3U846ZWH6QZP".downcase, @ec.encrypt("C4XPWULBM3M863JH"))
+  end
+
+
 end

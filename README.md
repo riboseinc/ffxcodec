@@ -67,7 +67,7 @@ A. It's kind of like a salt. The [initial FFX spec][1] has a good description.
 ## Warning
 
 The AES-FFX implementation is experimental.  It was cooked up for this proof of concept.
-The tests included are based on the NIST reference, but only a handful have been implemented.
+The tests included are based on the NIST reference vectors, but the published vectors only cover radix 10 and 36.
 Additionally, FFX is still a DRAFT specification.  Thus, it cannot yet be considered cryptographically secure.
 Don't use this for anything beyond basic obfuscation.
 
