@@ -4,7 +4,9 @@ class String
   # @param [String] other string to XOR with
   # @raises [ArgumentError] if other string isn't the same length
   # @return [String] result of XOR operation
+  # rubocop:disable AbcSize
   def ^(other)
+    # rubocop:disable RedundantSelf, SignalException
     b1 = self.unpack("C*")
     b2 = other.unpack("C*")
     raise ArgumentError, "Strings must be the same length" unless b1.size == b2.size

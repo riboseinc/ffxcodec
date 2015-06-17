@@ -71,7 +71,9 @@ class FFXCodec
     # @param [Fixnum, Bignum] n interlaced or uninterlaced value
     # @return [Fixnum, Bignum] interlaced value if input wasn't interlaced
     # @return [Fixnum, Bignum] deinterlaced value if input was interlaced
+    # rubocop:disable AbcSize
     def interlace(n)
+      # rubocop:disable SpaceAroundOperators, MultilineOperationIndentation
       if @size == 32
         n        & 0xFF0000FF | # 0, 3
         (n >> 8) & 0x0000FF00 | # 1
