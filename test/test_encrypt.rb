@@ -36,7 +36,6 @@ class TestEncrypt < Minitest::Test
     assert_equal("C8AQ3U846ZWH6QZP".downcase, @ec.encrypt("C4XPWULBM3M863JH"))
   end
 
-
   def test_raises_argumenterror_when_key_too_small
     assert_raises ArgumentError do
       @ec.key = "2b7e151628aed2a6abf7158809cf4f"
