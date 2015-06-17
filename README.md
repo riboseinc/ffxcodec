@@ -16,14 +16,14 @@ Start by divvying up the 32 or 64 bits that will make up the resulting integer:
 
 Then, encode and decode accordingly:
 
-    ffx.encode(1234567890, 4)          #=> 20712612157194244
-    ffx.decode(20712612157194244)      #=> [1234567890, 4]
+    ffx.encode(1234567890, 4)          #=> 165828720871684
+    ffx.decode(165828720871684)        #=> [1234567890, 4]
 
 Optionally, you can enable encryption by setting a `key` and `tweak`:
 
     ffx.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "9876543210")
-    ffx.encode(797980150281, 5427652)  #=> 354718250089538754
-    ffx.decode(354718250089538754)     #=> [797980150281, 5427652]
+    ffx.encode(797980150281, 5427652)  #=> 7692035069140451684
+    ffx.decode(7692035069140451684)    #=> [797980150281, 5427652]
 
 
 ### Putting it all together
@@ -31,15 +31,15 @@ Optionally, you can enable encryption by setting a `key` and `tweak`:
 Example **without encryption** (40 and 24-bit integers into 64-bit):
 
     ffx = FFXCodec.new(40, 24)
-    ffx.encode(1234567890, 4)          #=> 20712612157194244
-    ffx.decode(20712612157194244)      #=> [1234567890, 4]
+    ffx.encode(1234567890, 4)          #=> 165828720871684
+    ffx.decode(165828720871684)        #=> [1234567890, 4]
 
 Example **with encryption** (40 and 24-bit integers into 64-bit):
 
     ffx = FFXCodec.new(40, 24)
     ffx.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "9876543210")
-    ffx.encode(797980150281, 5427652)  #=> 354718250089538754
-    ffx.decode(354718250089538754)     #=> [797980150281, 5427652]
+    ffx.encode(797980150281, 5427652)  #=> 7692035069140451684
+    ffx.decode(7692035069140451684)    #=> [797980150281, 5427652]
 
 
 ## Installation
@@ -62,6 +62,10 @@ Q. What is a tweak?
 
 A. It's kind of like a salt. The [initial FFX spec][1] has a good description.
 
+
+## Alternate Methods
+
+- Mortonizing, Z-Order Curve
 
 
 ## Warning

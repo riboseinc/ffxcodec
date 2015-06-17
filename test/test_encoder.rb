@@ -7,58 +7,58 @@ class TestEncoder < Minitest::Test
 
   def test_correct_encoded_result1
     enc = encoder(40, 24)
-    assert_equal 20712612157194244, enc.encode(1234567890, 4)
-    assert_equal 207126118818126, enc.encode(12345678, 12345678)
-    assert_equal 2065667107513, enc.encode(123123, 5941945)
+    assert_equal 165828720871684, enc.encode(1234567890, 4)
+    assert_equal 27510117574115406, enc.encode(12345678, 12345678)
+    assert_equal 47852892993487033, enc.encode(123123, 5941945)
   end
 
   def test_correct_decoded_result1
     enc = encoder(40, 24)
-    assert_equal [1234567890, 4], enc.decode(20712612157194244)
-    assert_equal [12345678, 12345678], enc.decode(207126118818126)
-    assert_equal [123123, 5941945], enc.decode(2065667107513)
+    assert_equal [1234567890, 4], enc.decode(165828720871684)
+    assert_equal [12345678, 12345678], enc.decode(27510117574115406)
+    assert_equal [123123, 5941945], enc.decode(47852892993487033)
   end
 
   def test_correct_encoded_result2
     enc = encoder(32, 32)
-    assert_equal 5302424889720836, enc.encode(1234567, 4)
-    assert_equal 4294967298, enc.encode(1, 2)
-    assert_equal 16086812286712480250, enc.encode(3745502859, 232980986)
+    assert_equal 235297753272836, enc.encode(1234567, 4)
+    assert_equal 16777218, enc.encode(1, 2)
+    assert_equal 16069360299104485370, enc.encode(3745502859, 232980986)
   end
 
   def test_correct_decoded_result2
     enc = encoder(32, 32)
-    assert_equal [1234567, 4], enc.decode(5302424889720836)
-    assert_equal [1, 2], enc.decode(4294967298)
-    assert_equal [3745502859, 232980986], enc.decode(16086812286712480250)
+    assert_equal [1234567, 4], enc.decode(235297753272836)
+    assert_equal [1, 2], enc.decode(16777218)
+    assert_equal [3745502859, 232980986], enc.decode(16069360299104485370)
   end
 
   def test_correct_encoded_result3
     enc = encoder(24, 40)
-    assert_equal 4116204368438274466, enc.encode(3743666, 70928607650)
-    assert_equal 9717243587552383052, enc.encode(8837781, 614314577996)
+    assert_equal 4155048407216168866, enc.encode(3743666, 70928607650)
+    assert_equal 9696413861720152652, enc.encode(8837781, 614314577996)
     assert_equal 1099511627778, enc.encode(1, 2)
   end
 
   def test_correct_decoded_result3
     enc = encoder(24, 40)
-    assert_equal [3743666, 70928607650], enc.decode(4116204368438274466)
-    assert_equal [8837781, 614314577996], enc.decode(9717243587552383052)
+    assert_equal [3743666, 70928607650], enc.decode(4155048407216168866)
+    assert_equal [8837781, 614314577996], enc.decode(9696413861720152652)
     assert_equal [1, 2], enc.decode(1099511627778)
   end
 
   def test_correct_encoded_result4
     enc = encoder(8, 56)
-    assert_equal 7153227423786204750, enc.encode(99, 19525614031339086)
-    assert_equal 11202716620044058537, enc.encode(155, 33789544165228457)
-    assert_equal 17157386009052208939, enc.encode(238, 7678628025360171)
+    assert_equal 7205300119071835470, enc.encode(99, 19525614031339086)
+    assert_equal 11186672443695003817, enc.encode(155, 33789544165228457)
+    assert_equal 17176526564159920939, enc.encode(238, 7678628025360171)
   end
 
   def test_correct_decoded_result4
     enc = encoder(8, 56)
-    assert_equal [99, 19525614031339086], enc.decode(7153227423786204750)
-    assert_equal [155, 33789544165228457], enc.decode(11202716620044058537)
-    assert_equal [238, 7678628025360171], enc.decode(17157386009052208939)
+    assert_equal [99, 19525614031339086], enc.decode(7205300119071835470)
+    assert_equal [155, 33789544165228457], enc.decode(11186672443695003817)
+    assert_equal [238, 7678628025360171], enc.decode(17176526564159920939)
   end
 
   def test_correct_encoded_result_at_64_maximums

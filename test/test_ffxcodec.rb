@@ -6,18 +6,18 @@ class TestFFXCodec < Minitest::Test
   end
 
   def test_correct_encode_results
-    assert_equal 20712612157194244, encoder(40, 24).encode(1234567890, 4)
+    assert_equal 165828720871684, encoder(40, 24).encode(1234567890, 4)
   end
 
   def test_correct_decode_results
-    assert_equal [1234567890, 4], encoder(40, 24).decode(20712612157194244)
+    assert_equal [1234567890, 4], encoder(40, 24).decode(165828720871684)
   end
 
   def test_uses_encryption_when_setup
     enc = encoder(40, 24)
     enc.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "9876543210")
-    assert_equal 354718250089538754, enc.encode(797980150281, 5427652)
-    assert_equal [797980150281, 5427652], enc.decode(354718250089538754)
+    assert_equal 7692035069140451684, enc.encode(797980150281, 5427652)
+    assert_equal [797980150281, 5427652], enc.decode(7692035069140451684)
   end
 
   def test_correct_32_maximums
@@ -34,7 +34,7 @@ class TestFFXCodec < Minitest::Test
     enc = encoder(40, 24)
     enc.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "9876543210")
     enc.disable_encryption
-    assert_equal 20712612157194244, encoder(40, 24).encode(1234567890, 4)
-    assert_equal [1234567890, 4], encoder(40, 24).decode(20712612157194244)
+    assert_equal 165828720871684, encoder(40, 24).encode(1234567890, 4)
+    assert_equal [1234567890, 4], encoder(40, 24).decode(165828720871684)
   end
 end

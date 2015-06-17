@@ -32,7 +32,8 @@ class FFXCodec
     # @return [Fixnum, Bignum] encoded integer
     def encode(a, b)
       check_ab_bounds(a, b)
-      (a << @b_size) ^ b
+      i = (a << @b_size) ^ b
+      interlace(i)
     end
 
     # Separate an unsigned integer into two smaller unsigned integers
@@ -44,12 +45,45 @@ class FFXCodec
     # @param [Fixnum, Bignum] c encoded value to decode
     # @return [Array<Fixnum>] decoded integers
     def decode(c)
-      a = c >> @b_size
-      b = (c ^ (a << @b_size))
+      i = interlace(c)
+      a = i >> @b_size
+      b = (i ^ (a << @b_size))
       [a, b]
     end
 
     private
+
+    # Interlace / deinterlace bytes
+    #
+    # Running this on a number toggles interlacing (a reorder of the bits).
+    #
+    # This reorders the bytes in an integer.  We do this to avoid a possible
+    # reduction in the effectiveness of our encryption resulting from the fact
+    # that we encode input by concatenating the bits of two potentially equally
+    # sized integers and the way a maximally-balanced Feistel splits the input
+    # in half.
+    #
+    # Technically we only need to do this when encryption is enabled and the
+    # integer is evenly divided.  However, this imparts almost no performance
+    # penalty.  Ruby can perform ~1 million of these operations in 2 sec for
+    # random 64-bit values and 0.5 sec for random 32-bit values.
+    #
+    # @param [Fixnum, Bignum] n interlaced or uninterlaced value
+    # @return [Fixnum, Bignum] interlaced value if input wasn't interlaced
+    # @return [Fixnum, Bignum] deinterlaced value if input was interlaced
+    def interlace(n)
+      if @size == 32
+        n        & 0xFF0000FF | # 0, 3
+        (n >> 8) & 0x0000FF00 | # 1
+        (n << 8) & 0x00FF0000   # 2
+      else
+        n         & 0xFF00FF0000FF00FF | # 0, 2, 5, 7
+        (n >> 40) & 0x000000000000FF00 | # 1
+        (n >> 8)  & 0x00000000FF000000 | # 3
+        (n << 8)  & 0x000000FF00000000 | # 4
+        (n << 40) & 0x00FF000000000000   # 6
+      end
+    end
 
     # Calculate the maximum values representable in the given number of bits
     #

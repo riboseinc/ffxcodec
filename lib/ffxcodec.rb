@@ -42,12 +42,12 @@ class FFXCodec
   #
   # @example Encode 40 and 24-bit integers into an unencrypted 64-bit integer
   #   ffx = FFXCodec.new(40, 24)
-  #   ffx.encode(1234567890, 4)          #=> 20712612157194244
+  #   ffx.encode(1234567890, 4)          #=> 165828720871684
   #
   # @example Encode 40 and 24-bit integers into an encrypted 64-bit integer
   #   ffx = FFXCodec.new(40, 24)
   #   ffx.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "9876543210")
-  #   ffx.encode(797980150281, 5427652)  #=> 354718250089538754
+  #   ffx.encode(797980150281, 5427652)  #=> 7692035069140451684
   #
   # @return [Fixnum, Bignum] encoded integer if encryption not setup
   # @return [Fixnum, Bignum] encrypted encoded integer if encryption setup
@@ -63,12 +63,12 @@ class FFXCodec
   #
   # @example Decode unencrypted integer into component 40 and 24-bit integers
   #   ffx = FFXCodec.new(40, 24)
-  #   ffx.decode(20712612157194244)      #=> [1234567890, 4]
+  #   ffx.decode(165828720871684)        #=> [1234567890, 4]
   #
   # @example Decode encrypted integer into component 40 and 24-bit integers
   #   ffx = FFXCodec.new(40, 24)
   #   ffx.setup_encryption("2b7e151628aed2a6abf7158809cf4f3c", "9876543210")
-  #   ffx.decode(354718250089538754)     #=> [797980150281, 5427652]
+  #   ffx.decode(7692035069140451684)    #=> [797980150281, 5427652]
   #
   # @return [Array<Fixnum>] component integers
   def decode(c)
