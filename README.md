@@ -79,4 +79,10 @@ Additionally, FFX is still a DRAFT specification.  Thus, it cannot yet be consid
 Don't use this for anything beyond basic obfuscation.
 
 
+## Known Issues
+
+- Assumes little-endian.
+- Assumes 64-bit capable.
+
+
 [1]: http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/ffx/ffx-spec.pdf
