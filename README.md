@@ -63,10 +63,13 @@ Q. What is a tweak?
 A. It's kind of like a salt. The [initial FFX spec][1] has a good description.
 
 
-## Alternate Methods
+## Alternatives
 
-- Mortonizing, Z-Order Curve
+Encoding:
+- "Mortonizing" / Z-Order Curve
 
+Encryption:
+- BPS
 
 ## Warning
 
