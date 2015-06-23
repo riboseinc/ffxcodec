@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require "ffxcodec"
+require "pp"
+
+a_val = 1234567890
+b_val = 4
+a_size = 40
+b_size = 24
+key = "2b7e151628aed2a6abf7158809cf4f3c"
+tweak = "9876543210"
+
+ffx = FFXCodec.new(a_size, b_size)  # divide 64-bit int into a 40 and 24-bit int
+
+unencrypted_encoded = ffx.encode(a_val, b_val)
+unencrypted_decoded = ffx.decode(unencrypted_encoded)
+
+ffx.setup_encryption(key, tweak)
+
+encrypted_encoded = ffx.encode(a_val, b_val)
+encrypted_decoded = ffx.decode(encrypted_encoded)
+
+puts "Input A: #{a_val}"
+puts "Input B: #{b_val}"
+puts "Input A bit allocation: #{a_size}"
+puts "Input B bit allocation: #{b_size}"
+puts "Encoded Size (Type): #{ffx.size} bytes (#{ffx.bit_length}-bit unsigned integer)"
+puts ""
+puts "Without Encryption:"
+puts "- Encoded: #{unencrypted_encoded}"
+puts "- Decoded: #{unencrypted_decoded.inspect}"
+puts ""
+puts "With Encryption: (Key: #{key}, Tweak: #{tweak})"
+puts "- Encoded: #{encrypted_encoded}"
+puts "- Decoded: #{encrypted_decoded.inspect}"
