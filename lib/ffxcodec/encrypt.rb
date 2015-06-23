@@ -84,7 +84,7 @@ class FFXCodec
     #
     # @return [Fixnum, Bignum] encrypted integer
     def encrypt(input)
-      a, b = input.zero_pad(@length).bisect
+      a, b = input.prepad_zeros(@length).bisect
       0.upto(@rounds - 1) do |iter|
         f = feistel_round(input.size, iter, b)
         c = block_addition(a, f)
@@ -104,7 +104,7 @@ class FFXCodec
     #
     # @return [Fixnum, Bignum] unencrypted integer
     def decrypt(input)
-      a, b = input.zero_pad(@length).bisect
+      a, b = input.prepad_zeros(@length).bisect
       (@rounds - 1).downto(0) do |iter|
         c = b
         b = a
@@ -121,7 +121,7 @@ class FFXCodec
     def block_addition(a, b)
       sum = a.to_i(@radix) + b.to_i(@radix)
       sum %= (@radix**a.size)
-      sum.to_s(@radix).zero_pad(a.size)
+      sum.to_s(@radix).prepad_zeros(a.size)
     end
 
     # Computes the block-wise radix subtraction of x and y
@@ -132,7 +132,7 @@ class FFXCodec
       block_diff += mod if block_diff < 0
       out         = block_diff.to_s(@radix)
       return out unless out.length < n
-      out.zero_pad(n)
+      out.prepad_zeros(n)
     end
 
     def num_radix(str, length)
@@ -217,7 +217,7 @@ class FFXCodec
       m = (iter % 2).zero? ? (input_len / 2) : (input_len / 2.0).ceil
       z = y % (@radix**m)
 
-      z.to_s(@radix).zero_pad(m)
+      z.to_s(@radix).prepad_zeros(m)
     end
   end
 end

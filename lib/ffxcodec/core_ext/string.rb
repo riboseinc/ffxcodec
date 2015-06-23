@@ -32,7 +32,7 @@ class String
   #
   # @param [Integer] length we want the resulting string to be
   # @return [String] prepended with '0's until the given length is reached
-  def zero_pad(length)
+  def prepad_zeros(length)
     str = self
     str.insert(0, '0') while str.length < length
     str
