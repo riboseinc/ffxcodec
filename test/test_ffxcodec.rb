@@ -37,4 +37,24 @@ class TestFFXCodec < Minitest::Test
     assert_equal 165828720871684, encoder(40, 24).encode(1234567890, 4)
     assert_equal [1234567890, 4], encoder(40, 24).decode(165828720871684)
   end
+
+  def test_shows_correct_size_for_64_bit
+    enc = encoder(32, 32)
+    assert_equal 8, enc.size
+  end
+
+  def test_shows_correct_size_for_32_bit
+    enc = encoder(16, 16)
+    assert_equal 4, enc.size
+  end
+
+  def test_shows_correct_bitlength_for_64_bit
+    enc = encoder(32, 32)
+    assert_equal 64, enc.bit_length
+  end
+
+  def test_shows_correct_bitlength_for_32_bit
+    enc = encoder(16, 16)
+    assert_equal 32, enc.bit_length
+  end
 end

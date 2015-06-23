@@ -91,6 +91,20 @@ class FFXCodec
     [@encoder.a_max, @encoder.b_max]
   end
 
+  # Show size of the resulting integer in bytes
+  #
+  # @return [Fixnum] size of the combined integer in bytes
+  def size
+    @encoder.size / 8
+  end
+
+  # Show size of the resulting integer in bits
+  #
+  # @return [Fixnum] size of the combined integer in bits
+  def bit_length
+    @encoder.size
+  end
+
   private
 
   # @param [Fixnum, Bignum] value to encrypt
