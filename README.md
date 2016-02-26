@@ -2,7 +2,7 @@
 
 Encodes two unsigned integers into a single, larger (32 or 64-bit) integer.
 
-Optionally, it can encrypt/decrypt the resulting integer using an implementation of the AES-FFX format-preserving cipher.
+Optionally, it can encrypt/decrypt the resulting integer using an implementation of the AES-FFX [format-preserving cipher][1].
 
 Has no external dependencies.  Everything is done with the stdlib.
 
@@ -44,6 +44,10 @@ Example **with encryption** (40 and 24-bit integers into 64-bit):
 
 ## Installation
 
+To install:
+
+    gem install ffxcodec
+
 Add this line to your application's Gemfile:
 
 ```ruby
@@ -60,7 +64,7 @@ A. It could be made to work with signed integers, but it wasn't built or tested 
 
 Q. What is a tweak?
 
-A. It's kind of like a salt. The [initial FFX spec][1] has a good description.
+A. It's kind of like a salt. The [initial FFX spec][2] has a good description.
 
 
 ## Alternatives
@@ -69,13 +73,17 @@ Encoding:
 - "Mortonizing" / Z-Order Curve
 
 Encryption:
-- BPS
+- [BPS][3] (PDF)
+- [Hasty Pudding cipher][4]
 
 ## Warning
 
 The AES-FFX implementation is experimental.  It was cooked up for this proof of concept.
+
 The tests included are based on the NIST reference vectors, but the published vectors only cover radix 10 and 36.
+
 Additionally, FFX is still a DRAFT specification.  Thus, it cannot yet be considered cryptographically secure.
+
 Don't use this for anything beyond basic obfuscation.
 
 
@@ -85,4 +93,12 @@ Don't use this for anything beyond basic obfuscation.
 - Assumes 64-bit capable.
 
 
-[1]: http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/ffx/ffx-spec.pdf
+## Author
+
+- J. Brandt Buckley <brandt@runlevel1.com>
+
+
+[1]: https://en.wikipedia.org/wiki/Format-preserving_encryption
+[2]: http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/ffx/ffx-spec.pdf
+[3]: http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/bps/bps-spec.pdf
+[4]: https://en.wikipedia.org/wiki/Hasty_Pudding_cipher
