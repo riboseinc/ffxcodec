@@ -74,13 +74,12 @@ end
 case ARGV.count
 when 1
   encoded = ARGV[0].to_i
-  userid, listid = ffx.decode(encoded)
-  puts "User ID: #{userid}"
-  puts "List ID: #{listid}"
+  a, b = ffx.decode(encoded)
+  puts "[#{a}, #{b}]"
 when 2
-  userid = ARGV[0].to_i
-  listid = ARGV[1].to_i
-  encoded = ffx.encode(userid, listid)
+  a = ARGV[0].to_i
+  b = ARGV[1].to_i
+  encoded = ffx.encode(a, b)
   puts "Encoded: #{encoded}"
 else
   warn "Wrong number of values provided to encode or decode."
