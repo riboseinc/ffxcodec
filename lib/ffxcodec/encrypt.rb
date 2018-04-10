@@ -143,7 +143,7 @@ class FFXCodec
     end
 
     def aes(block)
-      aes = OpenSSL::Cipher::Cipher.new('aes-128-ecb')
+      aes = OpenSSL::Cipher.new('aes-128-ecb')
       aes.encrypt
       aes.key = @key
       aes.update(block)
